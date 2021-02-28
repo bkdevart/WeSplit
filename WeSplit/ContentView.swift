@@ -8,9 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
+
     @State private var checkAmount = ""
     @State private var numberOfPeople = ""
     @State private var tipPercentage = 2
+    //    Go back to project 1 and use a conditional modifier to change the total amount text view to red if the user selects a 0% tip.
+    var zeroTip: Bool {
+        let tipSelection = Double(tipPercentages[tipPercentage])
+        if tipSelection.isZero {
+            return true
+        } else {
+            return false
+        }
+    }
     
     let tipPercentages = [10, 15, 20, 25, 0]
     
@@ -31,7 +41,8 @@ struct ContentView: View {
         let tipSelection = Double(tipPercentages[tipPercentage])
         let tipValue = orderAmount / 100 * tipSelection
         let grandTotal = orderAmount + tipValue
-        
+        print(tipSelection)
+        print(zeroTip)
         return grandTotal
     }
     
@@ -63,6 +74,7 @@ struct ContentView: View {
 //                Add another section showing the total amount for the check – i.e., the original amount plus tip value, without dividing by the number of people.
                 Section(header: Text("Total check")) {
                      Text("$\(totalCheck, specifier: "%.2f")")
+                        .foregroundColor(zeroTip ? .red : .black)
                 }
             }
             .navigationBarTitle("WeSplit")  // attach to form so iOS can change titles freely
